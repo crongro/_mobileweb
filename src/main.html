@@ -25,9 +25,13 @@
             box-sizing: border-box;
         }
 
+        body > * {
+            padding : 1em 0;
+        }
+
         header {
-            height: 300px;
-            width: 100px;
+            height:100%;
+            width: 100%;
             background-color: cadetblue;
         }
 
@@ -37,13 +41,20 @@
         }
 
         footer {
-            height: 667px;
+            height: 4em;
             background-color: deepskyblue;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            font-size: 2rem;
+            font-size: 1rem;
+        }
+        .img-set img{
+            width:100%;
+        }
+
+        .controller > button {
+            font-size: 3em;
         }
     </style>
 </head>
@@ -61,7 +72,7 @@
             maiores cupiditate quasi veniam hic odit laborum incidunt. Neque officia ipsa error voluptatum placeat!</p>
     </section>
     <div class="weather">
-        <div class="im_area _im_area">
+        <div class="img-set">
             <img class="_image"
                 src="https://search.pstatic.net/common?quality=75&amp;direct=true&amp;src=https%3A%2F%2Fcsearch-phinf.pstatic.net%2F20200329_78%2F1585469292761Tsmsz_PNG%2Fimage.png"
                 style="display: block;">
@@ -86,6 +97,9 @@
             <img class="_image"
                 src="https://search.pstatic.net/common?quality=75&amp;direct=true&amp;src=https%3A%2F%2Fcsearch-phinf.pstatic.net%2F20200329_158%2F1585469294699286jz_PNG%2Fimage.png"
                 style="display: none;">
+        </div>
+        <div class="controller">
+            <button>🎮</button>
         </div>
         <footer>
             codesquad company

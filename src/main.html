@@ -15,6 +15,7 @@
         h2,
         h3,
         h4,
+        button,
         ul,
         li,
         p,
@@ -25,12 +26,12 @@
             box-sizing: border-box;
         }
 
-        body > * {
-            padding : 1em 0;
+        body>* {
+            padding: 1em 0.5em;
         }
 
         header {
-            height:100%;
+            height: 100%;
             width: 100%;
             background-color: cadetblue;
         }
@@ -49,12 +50,36 @@
             flex-direction: column;
             font-size: 1rem;
         }
-        .img-set img{
-            width:100%;
+
+        .img-set img {
+            width: 100%;
         }
 
-        .controller > button {
-            font-size: 3em;
+        .controller>button,
+        .gage>button {
+            font-size: 2em;
+        }
+
+        .gage {
+            position: relative;
+            margin-top:1em;
+        }
+
+        .bar {
+            height: 3px;
+            background: gray;
+            margin-left: .5em;
+            width: 80%;
+        }
+
+        .gage>button {
+            position: absolute;
+            top: -0.5em;
+            left:0;
+        }
+
+        .controller {
+            margin-top: 1em;
         }
     </style>
 </head>
@@ -98,12 +123,68 @@
                 src="https://search.pstatic.net/common?quality=75&amp;direct=true&amp;src=https%3A%2F%2Fcsearch-phinf.pstatic.net%2F20200329_158%2F1585469294699286jz_PNG%2Fimage.png"
                 style="display: none;">
         </div>
+        <div class="gage">
+            <div class="bar"></div>
+            <button style="left:0px">🐶</button>
+        </div>
         <div class="controller">
             <button>🎮</button>
         </div>
         <footer>
             codesquad company
         </footer>
+
+        <script>
+
+            const imgs = [...document.querySelectorAll(".img-set img")];
+            const barWidth = document.querySelector(".bar").offsetWidth;
+
+            function runAnimation(idx) {
+                if (idx === imgs.length) return;
+
+                imgs[idx - 1].style.display = "none";
+                imgs[idx].style.display = "block";
+
+                setTimeout(() => {
+                    requestAnimationFrame(runAnimation.bind(null, ++idx));
+                }, 300)
+
+            }
+
+            function runGageAnimation() {
+                const grip = document.querySelector(".gage button");
+                const preLeft = parseInt(grip.style.left);
+                if(preLeft > barWidth) return;
+
+                grip.style.left = (preLeft + 40) + "px";
+
+                setTimeout(()=> {
+                    runGageAnimation();
+                },300)
+            }
+
+            function moveGageButton({target, changedTouches}) {
+                const clientX = changedTouches[0].clientX;
+                let toLeft = 0;
+                toLeft = Math.min(barWidth, Math.max(clientX, 0));
+                target.style.left = toLeft + "px";
+            }
+
+            function on() {
+                document.querySelector(".controller button").addEventListener("touchend", () => {
+                    requestAnimationFrame(runAnimation.bind(null, 1));
+                    requestAnimationFrame(runGageAnimation);
+                });
+
+                document.querySelector(".gage button").addEventListener("touchmove", (e)=>{
+                    console.log(e.changedTouches[0].clientX);
+                    moveGageButton(e);
+                }) 
+            }
+
+            on();
+
+        </script>
 
 </body>
 
